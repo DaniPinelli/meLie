@@ -17,13 +17,13 @@
 					<div class="row product-detail">
 						<div class="col-12">
 							<label for="username" class="form-label">Username: *</label>
-							<input type="text" id="username" name="username" placeholder="Ej: gonza123" class="form-input"
+							<input type="text" id="username" name="username" placeholder="Ej: usuario123" class="form-input"
 								value="<%= typeof old != 'undefined' ? old.username : '' %>">
 							<p class="error"><%= typeof errors == 'undefined' ? '' : errors.username ? errors.username.msg : '' %></p>
 						</div>
 						<div class="col-12">
 							<label for="email" class="form-label">Email: *</label>
-							<input type="text" id="email" name="email" placeholder="Ej: gonza@dh.com" class="form-input" value="<%= typeof old != 'undefined' ? old.email : '' %>">
+							<input type="text" id="email" name="email" placeholder="Ej: usuario@dh.com" class="form-input" value="<%= typeof old != 'undefined' ? old.email : '' %>">
 							<p class="error"><%= typeof errors == 'undefined' ? '' : errors.email ? errors.email.msg : '' %></p>
 						</div>
 						<div class="col-12 row">
@@ -39,7 +39,7 @@
 							<p class="error"><%= typeof errors == 'undefined' ? '' : errors.password ? errors.password.msg : '' %></p>
 						</div>
 						<div class="col-12">
-							<label for="retype" class="form-label">Repite la contraseña: *</label>
+							<label for="retype" class="form-label">Repetir la contraseña: *</label>
 							<input type="password" id="retype" name="retype" class="form-input">
 							<p class="error"><%= typeof errors == 'undefined' ? '' : errors.retype ? errors.retype.msg : '' %></p>
 						</div>
