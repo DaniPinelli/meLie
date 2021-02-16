@@ -24,8 +24,7 @@ var storage = multer.diskStorage({
       cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname))
    }
 })
-
-var upload = multer({
+const upload = multer({
    storage,
 
    // Validate image
@@ -46,7 +45,7 @@ var upload = multer({
 
 // ************       Routes       ************
 
-router.get('/page/:page', productsController.index); /* GET - All products - index */
+router.get('/', productsController.index); /* GET - All products - index */  
 router.get('/detail/:id', productsController.detail); /* GET - Product detail - show*/
 
 /*** CREATE ONE PRODUCT ***/ 

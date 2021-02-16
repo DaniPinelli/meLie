@@ -38,7 +38,7 @@ app.use(logMiddleware);
 app.use(cartMiddleware);
 app.use(helpersMiddleware);
 
-// ************ WRITE YOUR CODE FROM HERE ************
+
 // ************ Route System require and use() ************
 const mainRouter = require('./routes/mainRouter'); // Rutas main
 const productsRouter = require('./routes/productsRouter'); // Rutas /products

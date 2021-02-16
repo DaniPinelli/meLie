@@ -30,7 +30,7 @@ module.exports = {
       .withMessage("Campo obligatorio")
       .bail()
       .isEmail()
-      .withMessage("Debes ingresar un email válido")
+      .withMessage("Por favor ingrese un email válido")
       .bail()
       .custom((value) => {
         return User.findOne({
@@ -62,8 +62,8 @@ module.exports = {
       .notEmpty()
       .withMessage("Campo obligatorio")
       .bail()
-      .isLength({ min: 3 })
-      .withMessage("La contraseña debe tener al menos 3 carácteres"),
+      .isLength({ min: 8 })
+      .withMessage("La contraseña debe tener al menos 8 carácteres"),
     // Retype password
     body("retype")
       .notEmpty()
@@ -143,8 +143,8 @@ module.exports = {
       .notEmpty()
       .withMessage("Campo obligatorio")
       .bail()
-      .isLength({ min: 30 })
-      .withMessage("La descripción debe tener al menos 30 carácteres")
+      .isLength({ min: 15 })
+      .withMessage("La descripción debe tener al menos 15 carácteres")
       .bail()
       .isLength({ max: 100 })
       .withMessage("La descripción debe tener menos de 100 carácteres"),
@@ -196,8 +196,8 @@ module.exports = {
       .notEmpty()
       .withMessage("Campo obligatorio")
       .bail()
-      .isLength({ min: 30 })
-      .withMessage("La descripción debe tener al menos 30 carácteres")
+      .isLength({ min: 15 })
+      .withMessage("La descripción debe tener al menos 15 carácteres")
       .bail()
       .isLength({ max: 100 })
       .withMessage("La descripción debe tener menos de 100 carácteres"),

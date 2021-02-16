@@ -88,7 +88,7 @@ module.exports = {
 
           //Recuerdo al usuario si puso "Recuérdame"
           if (req.body.remember) {
-            // https://stackoverflow.com/questions/8855687/secure-random-token-in-node-js
+            // Crear token aleatotia segura https://stackoverflow.com/questions/8855687/secure-random-token-in-node-js          
             const token = crypto.randomBytes(64).toString("base64");
             // Creo la cookie por 3 meses
             res.cookie("userToken", token, {
