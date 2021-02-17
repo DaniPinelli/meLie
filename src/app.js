@@ -43,10 +43,12 @@ app.use(helpersMiddleware);
 const mainRouter = require('./routes/mainRouter'); // Rutas main
 const productsRouter = require('./routes/productsRouter'); // Rutas /products
 const usersRouter = require('./routes/usersRouter'); // Rutas /user
+const addToCartRouter = require('./routes/addToCartRouter'); //Rutas /add to cart
 
 app.use('/', mainRouter);
 app.use('/products', productsRouter);
 app.use('/users', usersRouter);
+app.use('/addToCart', addToCartRouter);
 
 // ************ DON'T TOUCH FROM HERE ************
 // ************ catch 404 and forward to error handler ************

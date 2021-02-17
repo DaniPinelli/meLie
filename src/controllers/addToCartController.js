@@ -1,9 +1,9 @@
-const { validationResult } = require("express-validator");
+const { validationResult } = require('express-validator');
 // ******** Sequelize ***********
 const {
   Product,
   Item,
-} = require("../database/models");
+} = require('../database/models');
 
 module.exports = {
     addToCart(req, res) {
@@ -12,7 +12,7 @@ module.exports = {
         if (errors.isEmpty()) {
           
           Product.findByPk(req.body.productId, {
-            include: ["user"],
+            include: ['user'],
           })
             .then((product) => {
               let price =
@@ -33,7 +33,7 @@ module.exports = {
                 let respuesta = {
                     meta : {
                         status : 201,
-                        message: "Product added to cart",
+                        message: "El producto ha sido agregado al carrito con éxito!",
                     },
                     data : item
                 }
@@ -44,7 +44,7 @@ module.exports = {
                 let respuesta = {
                     meta : {
                         status : 500,
-                        message: "Product NOT added to cart",
+                        message: "El producto NO se pudo agregar al carrito",
                     },
                     data: {error: e}
                 }
@@ -52,14 +52,14 @@ module.exports = {
             });
         } else {
            Product.findByPk(req.body.productId, {
-             include: ["user"],
+             include: ['user'],
            })
              .then(product => {
                 let respuesta = {
                     meta : {
                         status : 203,
                         url: '/items',
-                        message: "Error : Product not added to cart"
+                        message: "Error: El producto NO se pudo agregar al carrito"
                     },
                     data : {product: product, errors: errors.mapped()}
                 }

@@ -4,9 +4,9 @@ window.onload = () => {
     let productId = document.getElementById('productId');
 
     addToCartForm.addEventListener('submit', () => {
-        axios.post('http://localhost:3000/items', {productId: productId.value, quantity: quantity.value, userId: 102})
+        axios.post('http://localhost:3000/addToCart', {productId: productId.value, quantity: quantity.value, userId: 102})
         .then((resultado) => {
-            console.log(resultado);
+            console.log(resultado)
         })
     })
 }
