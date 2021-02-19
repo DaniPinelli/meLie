@@ -86,7 +86,7 @@ module.exports = {
           let _user = { ...user.dataValues };
           req.session.user = _user;
 
-          //Recuerdo al usuario si puso "Recuérdame"
+          //Recuerdo al usuario si puso "Recordarme"
           if (req.body.remember) {
             // Crear token aleatotia segura https://stackoverflow.com/questions/8855687/secure-random-token-in-node-js          
             const token = crypto.randomBytes(64).toString("base64");
