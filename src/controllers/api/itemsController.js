@@ -1,5 +1,7 @@
 const { validationResult } = require('express-validator');
+
 // ******** Sequelize ***********
+
 const {
   Product,
   Item,
@@ -10,17 +12,17 @@ module.exports = {
         const errors = validationResult(req);
     
         if (errors.isEmpty()) {
-          // Busco el producto que voy a agregar como Item.
+          // Search the product
           Product.findByPk(req.body.productId, {
             include: ['user'],
           })
             .then((product) => {
-              // Saco el valor del producto, teniendo en cuenta el descuento.
+              // Take the value w/discount
               let price =
                 Number(product.discount) > 0
                   ? product.price - (product.price * product.discount) / 100
                   : product.price;
-              // Creo el Item de compra
+              // Creat the item
               return Item.create({
                 salePrice: price,
                 quantity: req.body.quantity,

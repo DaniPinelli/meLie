@@ -1,6 +1,6 @@
-const bycrypt = require("bcryptjs");
-const crypto = require("crypto");
-const { validationResult } = require("express-validator");
+const bycrypt = require('bcryptjs');
+const crypto = require('crypto');
+const { validationResult } = require('express-validator');
 
 // ******** Sequelize ***********
 
@@ -11,26 +11,26 @@ const {
   Cart,
   Item,
   sequelize,
-} = require("../database/models");
+} = require('../database/models');
 
 module.exports = {
   // Index - Show all users
   index(req, res) {
     User.findAll()
-      .then((users) => res.render("users/users", { users }))
+      .then((users) => res.render('users/users', { users }))
       .catch((e) => console.log(e));
   },
 
   // Profile - Profile from one user
   profile(req, res) {
     User.findByPk(req.session.user.id, {
-      include: ["sales", "products"],
-    }).then((user) => res.render("users/profile", { user }));
+      include: ['sales', 'products'],
+    }).then((user) => res.render('users/profile', { user }));
   },
 
   // Create - Form to create
   create(req, res) {
-    return res.render("users/user-register-form");
+    return res.render('users/user-register-form');
   },
   sales(req, res) {
     Item.findAll({
@@ -41,7 +41,7 @@ module.exports = {
         all: true,
         nested: true,
       },
-    }).then((items) => res.render("users/sales", { items }));
+    }).then((items) => res.render('users/sales', { items }));
   },
 
   // Store -  Method to store
@@ -57,10 +57,10 @@ module.exports = {
       _body.image = req.file ? req.file.filename : null;
 
       User.create(_body)
-        .then((user) => res.redirect("/users/login/"))
+        .then((user) => res.redirect('/users/login/'))
         .catch((e) => console.log(e));
     } else {
-      return res.render("users/user-register-form", {
+      return res.render('users/user-register-form', {
         errors: errors.mapped(),
         old: req.body,
       });
@@ -69,7 +69,7 @@ module.exports = {
 
   // Login - Form to login
   showLogin(req, res) {
-    return res.render("users/user-login-form");
+    return res.render('users/user-login-form');
   },
 
   processLogin(req, res) {
@@ -82,19 +82,18 @@ module.exports = {
         },
       })
         .then((user) => {
-          //Logueo al usuario
+          //Loguin 
           let _user = { ...user.dataValues };
           req.session.user = _user;
 
-          //Recuerdo al usuario si puso "Recordarme"
+          //Remember user if "Recordarme"
           if (req.body.remember) {
-            // Crear token aleatotia segura https://stackoverflow.com/questions/8855687/secure-random-token-in-node-js          
-            const token = crypto.randomBytes(64).toString("base64");
-            // Creo la cookie por 3 meses
-            res.cookie("userToken", token, {
+            // Create random token         
+            const token = crypto.randomBytes(64).toString('base64');
+            res.cookie('userToken', token, {
               maxAge: 1000 * 60 * 60 * 24 * 90,
             });
-            // La guardo en la DB
+            // Store in the DB
             Token.create({
               token,
               userId: user.id,
@@ -102,12 +101,12 @@ module.exports = {
               .then((response) => res.redirect("/"))
               .catch((e) => console.log(e));
           } else {
-            return res.redirect("/");
+            return res.redirect('/');
           }
         })
         .catch((e) => console.log(e));
     } else {
-      return res.render("users/user-login-form", {
+      return res.render('users/user-login-form', {
         errors: errors.mapped(),
         old: req.body,
       });
@@ -115,7 +114,7 @@ module.exports = {
   },
 
   logout(req, res) {
-    // Borro el carrito que no concluyó
+    // Delete cart
     Item.destroy({
       where: {
         userId: req.session.user.id,
@@ -123,10 +122,10 @@ module.exports = {
       },
     })
       .then(() => {
-        // Borro la session
+        // Delete sesion
         req.session.destroy();
 
-        //Borro la cookie
+        //Delete cookie
         if (req.cookies.userToken) {
           return Token.findOne({
             where: {
@@ -142,15 +141,15 @@ module.exports = {
                   force: true,
                 })
                   .then((token) => {
-                    res.clearCookie("userToken");
-                    return res.redirect("/");
+                    res.clearCookie('userToken');
+                    return res.redirect('/');
                   })
                   .catch((e) => console.log(e));
               }
             })
             .catch((e) => console.log(e));
         } else {
-          return res.redirect("/");
+          return res.redirect('/');
         }
       })
       .catch((e) => console.log(e));
@@ -160,14 +159,14 @@ module.exports = {
   edit(req, res) {
     const user = User.findByPk(req.params.id);
 
-    return res.render("user-edit-form", { user });
+    return res.render('user-edit-form', { user });
   },
   // Update - Method to update
   update(req, res) {
     User.update(req.body, {
       id: req.req.params.id,
     })
-      .then((user) => res.redirect("/user/profile/" + req.params.id))
+      .then((user) => res.redirect('/user/profile/' + req.params.id))
       .catch((e) => console.log(e));
   },
 
@@ -178,7 +177,7 @@ module.exports = {
         id: req.params.id,
       },
     })
-      .then((user) => res.redirect("/"))
+      .then((user) => res.redirect('/'))
       .catch((e) => console.log(e));
   },
 
@@ -190,7 +189,7 @@ module.exports = {
       },
       include: ['product'],
     }).then((items) => {
-      return res.render("users/cart", { items })
+      return res.render('users/cart', { items })
     });
   },
 
@@ -198,19 +197,19 @@ module.exports = {
     const errors = validationResult(req);
 
     if (errors.isEmpty()) {
-      // Busco el producto que voy a agregar como Item.
+      // Search the product
       Product.findByPk(req.body.productId, {
-        include: ["user"],
+        include: ['user'],
       })
         .then((product) => {
-          // Saco el valor del producto, teniendo en cuenta el descuento.
+          // Take the price w/discount
 
           let price =
             Number(product.discount) > 0
               ? product.price - (product.price * product.discount) / 100
               : product.price;
 
-          // Creo el Item de compra
+          // Create item
           return Item.create({
             salePrice: price,
             quantity: req.body.quantity,
@@ -221,11 +220,11 @@ module.exports = {
             productId: product.id,
           });
         })
-        .then((item) => res.redirect("/users/cart"))
+        .then((item) => res.redirect('/users/cart'))
         .catch((e) => console.log(e));
     } else {
        Product.findByPk(req.body.productId, {
-         include: ["user"],
+         include: ['user'],
        })
          .then(product => {
             return res.render('products/detail', {product, errors: errors.mapped()})
@@ -240,32 +239,32 @@ module.exports = {
       },
       force: true,
     })
-      .then((response) => res.redirect("/users/cart"))
+      .then((response) => res.redirect('/users/cart'))
       .catch((e) => console.log(e));
   },
 
   shop(req, res) {
     let items;
 
-    // busco los items agregados al carrito
+    // Search items in cart
     Item.findAll({
       where: {
         userId: req.session.user.id,
         state: 1,
       },
     })
-      // cierro los items
+      // Close items
       .then((itemsSearched) => {
         items = itemsSearched;
         return Item.closeItems(req.session.user.id);
       })
-      // busco el ultimo carrito creado
+      // Search cart
       .then(() => {
         return Cart.findOne({
-          order: [["createdAt", "DESC"]],
+          order: [['createdAt', 'DESC']],
         });
       })
-      // creo el nuevo carrito
+      // Create new cart
       .then((cart) => {
         return Cart.create({
           orderNumber: cart ? ++cart.orderNumber : 1000,
@@ -276,12 +275,12 @@ module.exports = {
           userId: req.session.user.id,
         });
       })
-      // les asigno el id del carrito nuevo a los items no asignados
+      // Asign item id
       .then((cart) => {
         return Item.assignItems(req.session.user.id, cart.id);
       })
       // redirect
-      .then(() => res.redirect("/users/history"))
+      .then(() => res.redirect('/users/history'))
       .catch((e) => console.log(e));
   },
 
@@ -295,10 +294,10 @@ module.exports = {
         nested: true,
         paranoid: false,
       },
-      order: [["createdAt", "DESC"]],
+      order: [['createdAt', 'DESC']],
     })
       .then((carts) => {
-        res.render("users/history", { carts });
+        res.render('users/history', { carts });
       })
       .catch((e) => console.log(e));
   },
@@ -310,6 +309,6 @@ module.exports = {
         nested: true,
         paranoid: false,
       },
-    }).then((cart) => res.render("users/buyDetail", { cart }));
+    }).then((cart) => res.render('users/buyDetail', { cart }));
   },
 };

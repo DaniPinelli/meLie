@@ -206,5 +206,5 @@ module.exports = {
     body("quantity")
       .custom((value) => value > 0)
       .withMessage("Debe agregar al menos 1 producto al carrito"),
-  ],
+  ]
 };

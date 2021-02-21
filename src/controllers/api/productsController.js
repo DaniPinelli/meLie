@@ -39,7 +39,7 @@ module.exports = {
                     meta: {
                           'status': 200,
                           'count': 8,
-                          'url': '/myProducts/latest'
+                          'url': 'api/myProducts/latest'
                     },
                     data: resultado
             }
