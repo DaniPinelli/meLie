@@ -45,7 +45,7 @@ const upload = multer({
 
 // ************       Routes       ************
 
-router.get('/', productsController.index); /* GET - All products - index */  
+router.get('/page/:page', productsController.index); /* GET - All products - index */  
 router.get('/detail/:id', productsController.detail); /* GET - Product detail - show*/
 
 /*** CREATE ONE PRODUCT ***/ 

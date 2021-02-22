@@ -8,7 +8,7 @@ module.exports = {
 
 		const ultimos = Product.findAll({
 			order: [
-				['createdAt', 'DESC']
+				['createdAt', 'ASC']
 			],
 			limit: 8
 		});
